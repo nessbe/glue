@@ -15,4 +15,30 @@
 #ifndef GLUE_H
 #define GLUE_H
 
+#ifdef _WIN32
+	#define GLUE_PLATFORM_WINDOWS
+
+	#ifdef _WIN64
+		#define GLUE_PLATFORM_WIN64
+	#else
+		#define GLUE_PLATFORM_WIN32
+	#endif
+#elif defined(__APPLE__) || defined(__MACH__)
+	#include <TargetConditionals.h>
+
+	#define GLUE_PLATFORM_APPLE
+
+	#if TARGET_IPHONE_SIMULATOR
+		#define GLUE_PLATFORM_IOS_SIMULATOR
+	#elif TARGET_OS_IPHONE
+		#define GLUE_PLATFORM_IOS
+	#elif TARGET_OS_MAC
+		#define GLUE_PLATFORM_MACOS
+	#endif
+#elif defined(__ANDROID__)
+	#define GLUE_PLATFORM_ANDROID
+#elif defined(__linux__)
+	#define GLUE_PLATFORM_LINUX
+#endif
+
 #endif
