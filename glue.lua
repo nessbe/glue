@@ -1,4 +1,4 @@
--- File:       premake5.lua
+-- File:       glue.lua
 -- Project:    glue
 -- Repository: https://github.com/nessbe/glue
 --
@@ -12,5 +12,29 @@
 -- WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the LICENSE file for details.
 
-include "workspace.lua"
-include "glue.lua"
+project "glue"
+	kind "StaticLib"
+	language "C"
+	cdialect "C99"
+
+	targetdir("%{wks.location}/build/bin/%{prj.name}")
+	objdir("%{wks.location}/build/obj/%{prj.name}")
+
+	files {
+		"include/**.h",
+		"source/**.c"
+	}
+
+	includedirs {
+		"include"
+	}
+
+	filter "configurations:debug"
+		defines "GLUE_DEBUG"
+		symbols "On"
+		runtime "Debug"
+
+	filter "configurations:release"
+		defines "GLUE_RELEASE"
+		optimize "On"
+		runtime "Release"
